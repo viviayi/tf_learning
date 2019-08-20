@@ -45,7 +45,7 @@ X = rdm.rand(dataset_size, 2)
 #定义x1+x2<1的为正样本，其余为负样本，正样本表示为1，负样本表示为0
 Y = [[int(x1+x2<1)] for (x1, x2) in X]
 
-
+saver = tf.train.Saver()
 ######################################
 ###             训练部分            ###
 ######################################
@@ -71,7 +71,7 @@ with tf.Session() as sess:
             total_cross_entropy = sess.run(
                     cross_entropy, feed_dict={x: X, y_: Y})
             print("After %d training steps, cross entropy on all data is %g" % (i, total_cross_entropy))
-            
+    saver.save(sess, 'model/binary_classify.ckpt')        
     print(sess.run(w1))
     print(sess.run(w2))
     
