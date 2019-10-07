@@ -8,13 +8,16 @@ Created on Tue Aug 20 20:29:51 2019
 import tensorflow as tf
 
 #使用和保存模型代码中一样的方式声明变量
-v1 = tf.Variable(tf.constant(1.0, shape=[1]), name="v1")
-v2 = tf.Variable(tf.constant(2.0, shape=[1]), name="v2")
+#v1 = tf.Variable(tf.constant(1.0, shape=[1]), name="v1")
+#v2 = tf.Variable(tf.constant(2.0, shape=[1]), name="v2")
+#加载模型时可以给变量重命名，但是在saver中要指明对应的变量
+v1 = tf.Variable(tf.constant(1.0, shape=[1]), name="other-v1")
+v2 = tf.Variable(tf.constant(2.0, shape=[1]), name="other-v2")
 result = v1 + v2
 
-saver = tf.compat.v1.train.Saver()
+saver = tf.train.Saver({"v1":v1,"v2":v2})
 
-with tf.compat.v1.Session() as sess:
+with tf.Session() as sess:
     saver.restore(sess, "model/model.ckpt")
     print(sess.run(result))
     
